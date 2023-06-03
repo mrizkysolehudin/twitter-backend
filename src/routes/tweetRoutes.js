@@ -6,14 +6,16 @@ const prisma = new PrismaClient();
 
 // create
 router.post("/", async (req, res) => {
-	const { content, image, userId } = req.body;
+	const { content, image } = req.body;
+
+	const user = req.user;
 
 	try {
 		const result = await prisma.tweet.create({
 			data: {
 				content,
 				image,
-				userId,
+				userId: user.id,
 			},
 			include: { user: true },
 		});
